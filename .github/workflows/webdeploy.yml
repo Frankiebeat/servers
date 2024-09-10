@@ -20,6 +20,6 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@<EC2_PUBLIC_IP> "sudo rm -rf /var/www/html/*"
+        ssh -o StrictHostKeyChecking=no ubuntu@<54.94.254.215> "sudo rm -rf /var/www/html/*"
         scp -r * ubuntu@<54.94.254.215>:/var/www/html/
-        ssh -o StrictHostKeyChecking=no ubuntu@<EC2_PUBLIC_IP> "sudo systemctl restart nginx"
+        ssh -o StrictHostKeyChecking=no ubuntu@<54.94.254.215> "sudo systemctl restart nginx"

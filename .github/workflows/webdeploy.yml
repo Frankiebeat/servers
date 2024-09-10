@@ -22,9 +22,10 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 "sudo rm -rf /var/www/html/*"
 
+
     - name: Deploy to EC2
       run: |
-        rsync -avz --delete ./ ubuntu@54.94.254.215:/var/www/html/
+        rsync -avz --chown=ubuntu:ubuntu --delete ./ ubuntu@54.94.254.215:/var/www/html/
         ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 'sudo systemctl reload nginx'
 
     - name: Check Nginx status

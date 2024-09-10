@@ -1,6 +1,6 @@
 Project Overview: Deploying a Static Website on AWS EC2 with Nginx and SSL
 
-Objective
+Objective:
 The goal of this project is to demonstrate how to set up and deploy a static website using Nginx on an Ubuntu server hosted on Amazon EC2, secured with SSL certificates from Let’s Encrypt. This project integrates GitHub as the version control platform for managing the website's codebase.
 
 Project Components
@@ -35,3 +35,6 @@ Key Features and Achievements
 - SSL Encryption: The website is secured using SSL certificates from Let’s Encrypt, ensuring secure communication over HTTPS.
 - Version Control: All website files are managed using GitHub, providing version control and team collaboration features.
 - Scalable and Secure Infrastructure: The use of AWS EC2 and Elastic IP ensures scalable and highly available hosting. Security best practices, such as restricting SSH access and configuring firewalls, have been implemented.
+
+Conclusion:
+This project demonstrates the complete lifecycle of setting up a static website with modern best practices, from domain registration and DNS configuration to SSL setup and GitHub-based version control. By leveraging AWS EC2 for hosting and Let’s Encrypt for SSL certification, this project showcases how to build a secure, scalable, and manageable web infrastructure suitable for small businesses, developers, or personal projects.

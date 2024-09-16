@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 "cd /var/www/html && git pull"
-        continue-on-error: true  # Allow the step to fail and move to the next step
+        continue-on-error: false  # Allow the step to fail and move to the next step
 
       - name: Check for Deployment Errors
         if: failure()

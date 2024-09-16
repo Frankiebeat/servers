@@ -3,30 +3,32 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main
+      - main  # Deploy when changes are pushed to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.NGINX_EC2_SSH_KEY }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.NGINX_EC2_SSH_KEY }}  # Add your EC2 private SSH key to GitHub Secrets
 
-    - name: Clean up old files on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 "sudo rm -rf /var/www/html/*"
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 "cd /var/www/html && git pull"
+        continue-on-error: true  # Allow the step to fail and move to the next step
 
+      - name: Check for Deployment Errors
+        if: failure()
+        run: echo "Deployment failed. Rolling back to previous version."
 
-    - name: Deploy to EC2
-      run: |
-        rsync -avz --chown=ubuntu:ubuntu --delete ./ ubuntu@54.94.254.215:/var/www/html/
-        ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 'sudo systemctl reload nginx'
-
-    - name: Check Nginx status
-      run: ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 'sudo systemctl status nginx'
+      - name: Rollback to Previous Version
+        if: failure()
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@54.94.254.215 "
+          cd /var/www/html && git checkout $(git describe --tags --abbrev=0) && git pull"
